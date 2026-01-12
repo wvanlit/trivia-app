@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+set -e
+
+dotnet format --verbosity minimal trivia-app.slnx
+
+npm --prefix frontend run format

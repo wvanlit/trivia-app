@@ -78,6 +78,14 @@ Given the scope and timebox, I'm limiting the automated tests to 3 projects that
 - Worker integration tests: validate ingestion + persistence using mocked OTD responses and Testcontainers for the database.
 - Domain unit tests: validate business rules in isolation.
 
+## 04. Formatting and linting
+
+To keep code style consistent, I'm using formatters/linters that automatically run. This way I don't have to think about it.
+
+- C# uses EditorConfig + .NET analyzers with `dotnet format` for formatting and code-style checks.
+- TypeScript uses ESLint for both linting and formatting.
+- VS Code is configured to format on save and apply ESLint fixes.
+- A pre-commit that is set up using `git config core.hooksPath .githooks`.
 
 ## Things I'm leaving out of scope
 
