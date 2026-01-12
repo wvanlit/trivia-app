@@ -2,6 +2,13 @@
   <Project Path="frontend/frontend.esproj">
     <Build />
   </Project>
-  <Project Path="infrastructure/trivia-app.AppHost/trivia-app.AppHost.csproj" />
-  <Project Path="backend/trivia-app.Server/trivia-app.Server.csproj" />
+  <Project Path="infrastructure/TriviaApp.AppHost/TriviaApp.AppHost.csproj" />
+  <Project Path="backend/TriviaApp.API/TriviaApp.API.csproj" />
+  <Project Path="backend/TriviaApp.Worker/TriviaApp.Worker.csproj" />
+  <Project Path="backend/TriviaApp.Domain/TriviaApp.Domain.csproj" />
+  <Project Path="backend/TriviaApp.Infrastructure/TriviaApp.Infrastructure.csproj" />
+  <Project Path="backend/TriviaApp.ServiceDefaults/TriviaApp.ServiceDefaults.csproj" />
+  <Project Path="test/TriviaApp.Tests.EndToEnd/TriviaApp.Tests.EndToEnd.csproj" />
+  <Project Path="test/TriviaApp.Tests.Worker.Integration/TriviaApp.Tests.Worker.Integration.csproj" />
+  <Project Path="test/TriviaApp.Tests.Domain.Unit/TriviaApp.Tests.Domain.Unit.csproj" />
 </Solution>

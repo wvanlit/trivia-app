@@ -70,6 +70,15 @@ For the front-end I'm going to use React, as it's the front-end framework I'm th
 
 To host all of this, I'm going to use [Aspire](https://aspire.dev/) as it makes orchestrating multiple sub projects much easier for both development and production. While hosting this in the cloud is out of scope for me, Aspire would make that trivial.
 
+## 03. Test strategy
+
+Given the scope and timebox, I'm limiting the automated tests to 3 projects that each cover a distinct risk:
+
+- End-to-end tests: validate the primary user flow across UI + API using Aspire Testing + Playwright. The Worker is excluded and the API uses mock data so tests stay deterministic and never call OTD.
+- Worker integration tests: validate ingestion + persistence using mocked OTD responses and Testcontainers for the database.
+- Domain unit tests: validate business rules in isolation.
+
+
 ## Things I'm leaving out of scope
 
 I only have limited time to work on this project, not multiple sprints. To prevent over-engineering a toy example, these are the things I left out of scope but I would likely implement for a **production-ready** version.

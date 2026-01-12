@@ -1,0 +1,17 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.1.0">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UserSecretsId>bab3c08f-c3c7-4d4f-ae69-32d8dba183f1</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.JavaScript" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../backend/TriviaApp.API/TriviaApp.API.csproj" />
+    <ProjectReference Include="../../backend/TriviaApp.Worker/TriviaApp.Worker.csproj" />
+  </ItemGroup>
+</Project>

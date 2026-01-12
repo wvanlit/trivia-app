@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../TriviaApp.Domain/TriviaApp.Domain.csproj" />
+    <ProjectReference Include="../TriviaApp.Infrastructure/TriviaApp.Infrastructure.csproj" />
+    <ProjectReference Include="../TriviaApp.ServiceDefaults/TriviaApp.ServiceDefaults.csproj" />
+  </ItemGroup>
+</Project>
