@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="frontend/frontend.esproj">
+    <Build />
+  </Project>
+  <Project Path="infrastructure/trivia-app.AppHost/trivia-app.AppHost.csproj" />
+  <Project Path="backend/trivia-app.Server/trivia-app.Server.csproj" />
+</Solution>
