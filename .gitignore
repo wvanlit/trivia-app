@@ -3,5 +3,3 @@ bin/
 obj/
 debug/
 
-# TypeScript
-node_modules/
