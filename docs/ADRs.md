@@ -87,6 +87,14 @@ To keep code style consistent, I'm using formatters/linters that automatically r
 - VS Code is configured to format on save and apply ESLint fixes.
 - A pre-commit that is set up using `git config core.hooksPath .githooks`.
 
+## 05. Front End
+
+To help me with the front-end, I used Mantine for components and SWR + Zod for data fetching.
+
+This mainly cuts down on the amount of boilerplate, none of what it's doing isn't something I could have written myself in "plain" React/TypeScript.
+
+At some point I had a lot of `useState` everywhere to deal with which step of the quiz the user was on, etc. I put all of that in a [context and reducer](../frontend/src/state/quiz-context.ts) to encapsulate the state changes.
+
 ## Things I'm leaving out of scope
 
 I only have limited time to work on this project, not multiple sprints. To prevent over-engineering a toy example, these are the things I left out of scope but I would likely implement for a **production-ready** version.
@@ -135,3 +143,5 @@ I only have limited time to work on this project, not multiple sprints. To preve
               answer.result IS NULL
         LIMIT $QUESTION_LIMIT;
         ```
+- Setting difficulty
+  - Relatively trivial to add, just like Category filtering
