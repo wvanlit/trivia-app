@@ -2,6 +2,8 @@
 
 Decisions made during the implementation of the service are documented using Architectural Decisions Records in [`docs/ADRs.md`](./docs/ADRs.md)
 
+![demo](./docs/demo.mp4)
+
 ## Instructions
 
 This repo uses .NET Aspire to orchestrate the services in the application.
