@@ -75,6 +75,7 @@ To host all of this, I'm going to use [Aspire](https://aspire.dev/) as it makes 
 Given the scope and timebox, I'm limiting the automated tests to 3 projects that each cover a distinct risk:
 
 - End-to-end tests: validate the primary user flow across UI + API using Aspire Testing + Playwright. The Worker is excluded and the API uses mock data so tests stay deterministic and never call OTD.
+- API integration tests: validate endpoints work as expected.
 - Worker integration tests: validate ingestion + persistence using mocked OTD responses and Testcontainers for the database.
 - Domain unit tests: validate business rules in isolation.
 
