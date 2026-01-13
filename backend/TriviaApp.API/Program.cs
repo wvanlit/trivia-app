@@ -1,4 +1,5 @@
 using TriviaApp.API.Endpoints;
+using TriviaApp.API.Middleware;
 using TriviaApp.Domain.Extensions;
 using TriviaApp.Infrastructure;
 using TriviaApp.ServiceDefaults;
@@ -14,6 +15,7 @@ builder.Services.AddTriviaQueries();
 
 var app = builder.Build();
 
+app.UseMiddleware<RequestResponseLoggingMiddleware>();
 app.UseExceptionHandler();
 app.MapDefaultEndpoints();
 app.MapOpenApi();
