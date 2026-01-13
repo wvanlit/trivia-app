@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
@@ -44,6 +45,7 @@ public static class ServiceDefaultExtensions
             .WithMetrics(metrics =>
                 metrics.AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
+                    .AddNpgsqlInstrumentation()
                     .AddRuntimeInstrumentation())
             .WithTracing(tracing =>
                 tracing.AddSource(builder.Environment.ApplicationName)
@@ -53,7 +55,8 @@ public static class ServiceDefaultExtensions
                             !context.Request.Path.StartsWithSegments(HealthEndpointPath, StringComparison.InvariantCultureIgnoreCase) &&
                             !context.Request.Path.StartsWithSegments(AlivenessEndpointPath, StringComparison.InvariantCultureIgnoreCase)
                     )
-                    .AddHttpClientInstrumentation());
+                    .AddHttpClientInstrumentation()
+                    .AddNpgsql());
 
         builder.AddOpenTelemetryExporters();
 
