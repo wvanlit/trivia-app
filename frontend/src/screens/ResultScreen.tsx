@@ -15,7 +15,7 @@ export function ResultScreen() {
   const { correctCount, totalQuestions, categoryLabel } = useQuizState();
   const { restart } = useQuizActions();
   const percentage = totalQuestions > 0
-    ? Math.round((correctCount / totalQuestions) * 100)
+    ? Math.trunc((correctCount / totalQuestions) * 100)
     : 0;
   const performanceColor = percentage >= 80 ? 'lime' : percentage >= 55 ? 'yellow' : 'orange';
 
@@ -23,7 +23,7 @@ export function ResultScreen() {
     { label: 'Category', value: categoryLabel },
     { label: 'Total questions', value: totalQuestions },
     { label: 'Correct answers', value: correctCount },
-    { label: 'Accuracy', value: `${percentage}%` },
+    { label: 'Accuracy', value: `${percentage}%`, testId: 'result-accuracy' },
   ];
 
   return (
@@ -64,7 +64,7 @@ export function ResultScreen() {
                 <Text size="sm" c="dimmed">
                   {item.label}
                 </Text>
-                <Text fw={700} size="lg">
+                <Text fw={700} size="lg" data-testid={item.testId ?? undefined}>
                   {item.value}
                 </Text>
               </Box>
