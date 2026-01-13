@@ -12,22 +12,9 @@ namespace TriviaApp.Infrastructure;
 
 public static class ServiceCollectionExtensions
 {
-    /// <summary>
-    /// Registers Postgres access for the trivia ingestion flow.
-    /// </summary>
     public static IServiceCollection AddTriviaInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("trivia");
-        if (string.IsNullOrWhiteSpace(connectionString))
-        {
-            throw new InvalidOperationException("Connection string 'trivia' is required for trivia ingestion.");
-        }
-
-        var dataSource = new NpgsqlDataSourceBuilder(connectionString).Build();
-
-        services.AddSingleton(dataSource);
-        services.AddScoped<ITriviaRepository, TriviaRepository>();
-
+        services.AddTriviaDataAccess(configuration);
         services.AddOptions<OpenTriviaOptions>()
             .BindConfiguration(OpenTriviaOptions.SectionName)
             .Validate(options => options.BaseUrl is { IsAbsoluteUri: true, Scheme: "https" }, "OpenTrivia:BaseUrl must be an absolute https URL.")
@@ -49,7 +36,23 @@ public static class ServiceCollectionExtensions
             });
 
         services.AddScoped<ITriviaSource, OpenTriviaSource>();
-        services.AddTriviaDomain();
+        services.AddTriviaIngestion();
+
+        return services;
+    }
+
+    public static IServiceCollection AddTriviaDataAccess(this IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionString = configuration.GetConnectionString("trivia");
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException("Connection string 'trivia' is required for trivia data access.");
+        }
+
+        var dataSource = new NpgsqlDataSourceBuilder(connectionString).Build();
+
+        services.AddSingleton(dataSource);
+        services.AddScoped<ITriviaRepository, TriviaRepository>();
 
         return services;
     }

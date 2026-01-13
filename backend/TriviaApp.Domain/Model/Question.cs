@@ -12,7 +12,23 @@ public sealed record Question(
     string Text,
     Answer CorrectAnswer,
     IReadOnlyList<Answer> Options,
-    Difficulty Difficulty) : QuestionBase(Text, CorrectAnswer, Options, Difficulty);
+    Difficulty Difficulty) : QuestionBase(Text, CorrectAnswer, Options, Difficulty)
+{
+    /// <summary>
+    /// Validates the selected option index and determines if it matches the correct answer.
+    /// </summary>
+    public (bool IsValid, bool IsCorrect) EvaluateAnswerIndex(int selectedOptionIndex)
+    {
+        if (selectedOptionIndex < 0 || selectedOptionIndex >= Options.Count)
+        {
+            return (false, false);
+        }
+
+        var isCorrect = Options[selectedOptionIndex] == CorrectAnswer;
+
+        return (true, isCorrect);
+    }
+}
 
 public sealed record NewQuestion(
     string Text,

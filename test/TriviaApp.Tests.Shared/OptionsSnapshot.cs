@@ -8,13 +8,7 @@ namespace TriviaApp.Tests.Shared;
 public sealed class OptionsSnapshot<T>(T value) : IOptionsSnapshot<T>
     where T : class
 {
-    /// <summary>
-    /// Gets the configured options value.
-    /// </summary>
     public T Value { get; } = value;
 
-    /// <summary>
-    /// Returns the configured options value for any name.
-    /// </summary>
     public T Get(string? name) => Value;
 }

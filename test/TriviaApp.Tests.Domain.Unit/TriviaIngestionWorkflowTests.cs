@@ -10,9 +10,9 @@ namespace TriviaApp.Tests.Domain.Unit;
 
 public sealed class TriviaIngestionWorkflowTests
 {
-    private readonly Category _historyCategory = new(1, "History");
-    private readonly Category _scienceCategory = new(7, "Science");
-    private readonly Category _sportsCategory = new(4, "Sports");
+    private readonly Category _nerdCultureCategory = new(1, "Nerd Culture");
+    private readonly Category _programmingCategory = new(7, "Programming");
+    private readonly Category _coffeeCategory = new(4, "Coffee");
 
     [Fact]
     public async Task WhenRunThenTruncatesBeforeUpserting()
@@ -22,7 +22,7 @@ public sealed class TriviaIngestionWorkflowTests
 
         var categoryQuestions = new Dictionary<Category, int>
         {
-            [_historyCategory] = 1
+            [_nerdCultureCategory] = 1
         };
 
         var (workflow, repository) = CreateWorkflow(
@@ -49,7 +49,7 @@ public sealed class TriviaIngestionWorkflowTests
 
         var categoryQuestions = new Dictionary<Category, int>
         {
-            [_scienceCategory] = 125
+            [_programmingCategory] = 125
         };
 
         var (workflow, repository) = CreateWorkflow(
@@ -78,7 +78,7 @@ public sealed class TriviaIngestionWorkflowTests
 
         var categoryQuestions = new Dictionary<Category, int>
         {
-            [_sportsCategory] = 5
+            [_coffeeCategory] = 5
         };
 
         var (workflow, repository) = CreateWorkflow(
@@ -106,8 +106,8 @@ public sealed class TriviaIngestionWorkflowTests
 
         var categoryQuestions = new Dictionary<Category, int>
         {
-            [_historyCategory] = 2,
-            [_scienceCategory] = 3
+            [_nerdCultureCategory] = 2,
+            [_programmingCategory] = 3
         };
 
         var (workflow, repository) = CreateWorkflow(
@@ -132,7 +132,7 @@ public sealed class TriviaIngestionWorkflowTests
 
         var categoryQuestions = new Dictionary<Category, int>
         {
-            [_historyCategory] = 0
+            [_nerdCultureCategory] = 0
         };
 
         var (workflow, repository) = CreateWorkflow(
@@ -155,7 +155,7 @@ public sealed class TriviaIngestionWorkflowTests
 
         var categoryQuestions = new Dictionary<Category, int>
         {
-            [_historyCategory] = 5
+            [_nerdCultureCategory] = 5
         };
 
         var (workflow, repository) = CreateWorkflow(

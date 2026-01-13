@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using TriviaApp.Domain.Configuration;
+using TriviaApp.Domain.Queries;
 using TriviaApp.Domain.Workflows;
 
 namespace TriviaApp.Domain.Extensions;
@@ -9,7 +10,7 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Registers domain services for trivia ingestion workflows.
     /// </summary>
-    public static IServiceCollection AddTriviaDomain(this IServiceCollection services)
+    public static IServiceCollection AddTriviaIngestion(this IServiceCollection services)
     {
         services.AddOptions<TriviaIngestionOptions>()
             .BindConfiguration(TriviaIngestionOptions.SectionName)
@@ -17,6 +18,19 @@ public static class ServiceCollectionExtensions
             .ValidateOnStart();
 
         services.AddScoped<TriviaIngestionWorkflow>();
+
+        return services;
+    }
+
+    /// <summary>
+    /// Registers domain services for querying trivia.
+    /// </summary>
+    public static IServiceCollection AddTriviaQueries(this IServiceCollection services)
+    {
+        services.AddScoped<GetRandomQuestionsQueryHandler>();
+        services.AddScoped<GetCategoriesQueryHandler>();
+        services.AddScoped<VerifyAnswerQueryHandler>();
+
         return services;
     }
 }

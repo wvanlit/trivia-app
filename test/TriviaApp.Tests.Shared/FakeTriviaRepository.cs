@@ -3,9 +3,6 @@ using TriviaApp.Domain.Ports;
 
 namespace TriviaApp.Tests.Shared;
 
-/// <summary>
-/// Captures repository calls for workflow tests.
-/// </summary>
 public sealed class FakeTriviaRepository : ITriviaRepository
 {
     private readonly List<string> _calls = [];
@@ -41,5 +38,32 @@ public sealed class FakeTriviaRepository : ITriviaRepository
         _inserts.Add((categoryId, questions));
 
         return Task.FromResult(questions.Count);
+    }
+
+    public Task<IReadOnlyList<Question>> GetRandomQuestions(
+        int count,
+        CategoryId? categoryId,
+        CancellationToken cancellationToken)
+    {
+        _calls.Add("GetRandomQuestions");
+        return Task.FromResult<IReadOnlyList<Question>>([]);
+    }
+
+    public Task<IReadOnlyList<Category>> GetCategories(CancellationToken cancellationToken)
+    {
+        _calls.Add("GetCategories");
+        return Task.FromResult<IReadOnlyList<Category>>([]);
+    }
+
+    public Task<Question?> GetQuestion(QuestionId questionId, CancellationToken cancellationToken)
+    {
+        _calls.Add("GetQuestion");
+        return Task.FromResult<Question?>(null);
+    }
+
+    public Task<bool> CategoryExists(CategoryId categoryId, CancellationToken cancellationToken)
+    {
+        _calls.Add("CategoryExists");
+        return Task.FromResult(false);
     }
 }

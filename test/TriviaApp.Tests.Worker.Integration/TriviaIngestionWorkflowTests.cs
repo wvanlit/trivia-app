@@ -8,22 +8,11 @@ using Xunit;
 
 namespace TriviaApp.Tests.Worker.Integration;
 
-public sealed class TriviaIngestionWorkflowTests : IAsyncLifetime
+public sealed class TriviaIngestionWorkflowTests(WorkerTestFixture fixture) : WorkerTestBase(fixture)
 {
-    private readonly Category _historyCategory = new(1, "History");
-    private readonly Category _scienceCategory = new(2, "Science"); private readonly Category _randomCategory = new(99, "Random");
-
-    private TestHarness _harness = null!; // Always initialized by InitializeAsync
-
-    public async Task InitializeAsync() => _harness = await TestHarness.Create();
-
-    public async Task DisposeAsync()
-    {
-        if (_harness is not null)
-        {
-            await _harness.DisposeAsync();
-        }
-    }
+    private readonly Category _nerdCultureCategory = new(1, "Nerd Culture");
+    private readonly Category _programmingCategory = new(2, "Programming");
+    private readonly Category _literatureCategory = new(99, "Literature");
 
     [Fact]
     public async Task WhenRunThenTruncatesExistingTriviaData()
@@ -31,7 +20,7 @@ public sealed class TriviaIngestionWorkflowTests : IAsyncLifetime
         // Arrange
         var cancellationToken = CancellationToken.None;
 
-        await SeedRandomCategoryWithQuestion(cancellationToken);
+        await SeedLiteratureCategoryWithQuestion(cancellationToken);
 
         var workflow = CreateWorkflow([]);
 
@@ -39,8 +28,8 @@ public sealed class TriviaIngestionWorkflowTests : IAsyncLifetime
         await workflow.Run(cancellationToken);
 
         // Assert
-        (await _harness.CountCategories(cancellationToken)).Should().Be(0);
-        (await _harness.CountQuestionsInCategory(_randomCategory.Id, cancellationToken)).Should().Be(0);
+        (await Harness.CountCategories(cancellationToken)).Should().Be(0);
+        (await Harness.CountQuestionsInCategory(_literatureCategory.Id, cancellationToken)).Should().Be(0);
     }
 
     [Fact]
@@ -51,8 +40,8 @@ public sealed class TriviaIngestionWorkflowTests : IAsyncLifetime
 
         var categoryQuestions = new Dictionary<Category, int>
         {
-            [_historyCategory] = 6,
-            [_scienceCategory] = 3
+            [_nerdCultureCategory] = 6,
+            [_programmingCategory] = 3
         };
 
         var workflow = CreateWorkflow(categoryQuestions);
@@ -61,10 +50,10 @@ public sealed class TriviaIngestionWorkflowTests : IAsyncLifetime
         await workflow.Run(cancellationToken);
 
         // Assert
-        (await _harness.CountCategories(cancellationToken)).Should().Be(2);
-        (await _harness.CountQuestions(cancellationToken)).Should().Be(9);
-        (await _harness.CountQuestionsInCategory(_historyCategory.Id, cancellationToken)).Should().Be(6);
-        (await _harness.CountQuestionsInCategory(_scienceCategory.Id, cancellationToken)).Should().Be(3);
+        (await Harness.CountCategories(cancellationToken)).Should().Be(2);
+        (await Harness.CountQuestions(cancellationToken)).Should().Be(9);
+        (await Harness.CountQuestionsInCategory(_nerdCultureCategory.Id, cancellationToken)).Should().Be(6);
+        (await Harness.CountQuestionsInCategory(_programmingCategory.Id, cancellationToken)).Should().Be(3);
     }
 
     [Fact]
@@ -74,8 +63,8 @@ public sealed class TriviaIngestionWorkflowTests : IAsyncLifetime
         var cancellationToken = CancellationToken.None;
         var categoryQuestions = new Dictionary<Category, int>
         {
-            [_historyCategory] = 6,
-            [_scienceCategory] = 3
+            [_nerdCultureCategory] = 6,
+            [_programmingCategory] = 3
         };
 
         var workflow = CreateWorkflow(categoryQuestions, maxQuestionsPerCategory: 5);
@@ -84,18 +73,18 @@ public sealed class TriviaIngestionWorkflowTests : IAsyncLifetime
         await workflow.Run(cancellationToken);
 
         // Assert
-        (await _harness.CountCategories(cancellationToken)).Should().Be(2);
-        (await _harness.CountQuestions(cancellationToken)).Should().Be(8);
-        (await _harness.CountQuestionsInCategory(_historyCategory.Id, cancellationToken)).Should().Be(5);
-        (await _harness.CountQuestionsInCategory(_scienceCategory.Id, cancellationToken)).Should().Be(3);
+        (await Harness.CountCategories(cancellationToken)).Should().Be(2);
+        (await Harness.CountQuestions(cancellationToken)).Should().Be(8);
+        (await Harness.CountQuestionsInCategory(_nerdCultureCategory.Id, cancellationToken)).Should().Be(5);
+        (await Harness.CountQuestionsInCategory(_programmingCategory.Id, cancellationToken)).Should().Be(3);
     }
 
-    private async Task SeedRandomCategoryWithQuestion(CancellationToken cancellationToken)
+    private async Task SeedLiteratureCategoryWithQuestion(CancellationToken cancellationToken)
     {
-        var random = await _harness.Repository.UpsertCategory(_randomCategory, cancellationToken);
-        await _harness.Repository.InsertQuestions(
-            random.Id,
-            [TestQuestionFactory.CreateQuestion("Random")],
+        var literature = await Harness.Repository.UpsertCategory(_literatureCategory, cancellationToken);
+        await Harness.Repository.InsertQuestions(
+            literature.Id,
+            [TestQuestionFactory.CreateQuestion("Literature")],
             cancellationToken);
     }
 
@@ -115,7 +104,7 @@ public sealed class TriviaIngestionWorkflowTests : IAsyncLifetime
 
         return new TriviaIngestionWorkflow(
             source,
-            _harness.Repository,
+            Harness.Repository,
             options,
             NullLogger<TriviaIngestionWorkflow>.Instance);
     }

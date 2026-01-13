@@ -16,9 +16,6 @@ public sealed class TriviaIngestionWorkflow(
 {
     private const int MaxBatchSize = 50;
 
-    /// <summary>
-    /// Runs a single ingestion pass that refreshes trivia data from Open Trivia Database.
-    /// </summary>
     public async Task Run(CancellationToken cancellationToken)
     {
         // The worker reloads the full dataset every time.

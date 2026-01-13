@@ -11,4 +11,5 @@
   <Project Path="test/TriviaApp.Tests.EndToEnd/TriviaApp.Tests.EndToEnd.csproj" />
   <Project Path="test/TriviaApp.Tests.Worker.Integration/TriviaApp.Tests.Worker.Integration.csproj" />
   <Project Path="test/TriviaApp.Tests.Domain.Unit/TriviaApp.Tests.Domain.Unit.csproj" />
+  <Project Path="test/TriviaApp.Tests.Api.Integration/TriviaApp.Tests.Api.Integration.csproj" />
 </Solution>
