@@ -21,6 +21,12 @@ Once those are installed, you should be able to run `dotnet aspire run` in the r
 
 The worker seeds the database on startup. Until it finishes, `/api/questions` may return fewer results.
 
+## Important API endpoints
+
+- `GET /api/categories` - Lists available categories.
+- `GET /api/questions?count={count}&categoryId={categoryId}` - Returns random questions without answers.
+- `POST /api/questions/verify` - Verifies a selected answer.
+
 ## Tests
 
 Run all tests:
@@ -34,6 +40,8 @@ End-to-end tests use Playwright. After the first build, install browsers with:
 ```
 pwsh test/TriviaApp.Tests.EndToEnd/bin/Debug/net10.0/playwright.ps1 install
 ```
+
+You need powershell even on Linux/Mac, because Microsoft...
 
 ## Architecture Overview
 

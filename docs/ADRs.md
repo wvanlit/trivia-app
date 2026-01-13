@@ -72,7 +72,7 @@ To host all of this, I'm going to use [Aspire](https://aspire.dev/) as it makes 
 
 ## 03. Test strategy
 
-Given the scope and timebox, I'm limiting the automated tests to 3 projects that each cover a distinct risk:
+Given the scope and timebox, I'm limiting the automated tests to 4 projects that each cover a distinct risk:
 
 - End-to-end tests: validate the primary user flow across UI + API using Aspire Testing + Playwright. The Worker is excluded and the API uses mock data so tests stay deterministic and never call OTD.
 - API integration tests: validate endpoints work as expected.
