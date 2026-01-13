@@ -3,6 +3,7 @@ using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Networks;
 using Npgsql;
 using Testcontainers.PostgreSql;
+using TriviaApp.Domain.Model;
 using TriviaApp.Infrastructure;
 
 namespace TriviaApp.Tests.Worker.Integration;
@@ -12,7 +13,8 @@ internal sealed class TestHarness : IAsyncDisposable
     private readonly INetwork _network;
     private readonly PostgreSqlContainer _postgres;
     private readonly NpgsqlDataSource _dataSource;
-    private readonly TriviaRepository _repository;
+
+    internal TriviaRepository Repository { get; }
 
     private TestHarness(
         INetwork network,
@@ -23,7 +25,7 @@ internal sealed class TestHarness : IAsyncDisposable
         _network = network;
         _postgres = postgres;
         _dataSource = dataSource;
-        _repository = repository;
+        Repository = repository;
     }
 
     public static async Task<TestHarness> Create()
@@ -56,16 +58,33 @@ internal sealed class TestHarness : IAsyncDisposable
     {
         const string sql = "SELECT COUNT(*) FROM category;";
         await using var connection = await _dataSource.OpenConnectionAsync(cancellationToken);
-        return await connection.ExecuteScalarAsync<int>(
-            new CommandDefinition(sql, cancellationToken: cancellationToken));
+
+        return await connection.ExecuteScalarAsync<int>(new CommandDefinition(sql, cancellationToken: cancellationToken));
     }
 
     public async Task<int> CountQuestions(CancellationToken cancellationToken)
     {
         const string sql = "SELECT COUNT(*) FROM questions;";
         await using var connection = await _dataSource.OpenConnectionAsync(cancellationToken);
+
+        return await connection.ExecuteScalarAsync<int>(new CommandDefinition(sql, cancellationToken: cancellationToken));
+    }
+
+    public async Task<int> CountQuestionsInCategory(CategoryId categoryId, CancellationToken cancellationToken)
+    {
+        const string sql = """
+            SELECT COUNT(*)
+            FROM questions
+            WHERE category_id = @CategoryId;
+            """;
+
+        await using var connection = await _dataSource.OpenConnectionAsync(cancellationToken);
+
         return await connection.ExecuteScalarAsync<int>(
-            new CommandDefinition(sql, cancellationToken: cancellationToken));
+            new CommandDefinition(
+                sql,
+                new { CategoryId = (long)categoryId },
+                cancellationToken: cancellationToken));
     }
 
     public async ValueTask DisposeAsync()
@@ -91,7 +110,9 @@ internal sealed class TestHarness : IAsyncDisposable
             .Build();
 
         await flyway.StartAsync();
+
         var exitCode = await flyway.GetExitCodeAsync();
+
         if (exitCode != 0)
         {
             throw new InvalidOperationException($"Flyway migration failed with exit code {exitCode}.");

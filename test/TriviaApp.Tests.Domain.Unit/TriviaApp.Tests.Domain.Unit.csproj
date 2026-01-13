@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" />
@@ -12,5 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="../../backend/TriviaApp.Domain/TriviaApp.Domain.csproj" />
+    <ProjectReference Include="../TriviaApp.Tests.Shared/TriviaApp.Tests.Shared.csproj" />
   </ItemGroup>
 </Project>

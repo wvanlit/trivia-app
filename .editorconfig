@@ -72,3 +72,4 @@ dotnet_diagnostic.CA1515.severity = suggestion # Public DTOs and API contracts a
 dotnet_diagnostic.CA1848.severity = none       # ILogger is used directly for clarity in worker and ingestion flows.
 dotnet_diagnostic.CA1873.severity = none       # Logging arguments are cheap and readability is preferred here.
 dotnet_diagnostic.CA1062.severity = none       # Nullability annotations cover parameter validation.
+dotnet_diagnostic.CA1716.severity = none       # Shared is a keyword
