@@ -130,13 +130,13 @@ public sealed record QuestionItem
     public NewQuestion ToDomain()
     {
         var correctAnswer = new Answer(CorrectAnswer);
+
         var options = IncorrectAnswers
             .Select(answer => new Answer(answer))
             .Append(correctAnswer)
+            .Shuffle()
             .ToArray();
 
-        Difficulty? difficulty = string.IsNullOrWhiteSpace(Difficulty) ? default : new Difficulty(Difficulty);
-
-        return new NewQuestion(Question, correctAnswer, options, (Difficulty)difficulty);
+        return new NewQuestion(Question, correctAnswer, options, new Difficulty(Difficulty));
     }
 }
